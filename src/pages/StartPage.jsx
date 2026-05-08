@@ -73,14 +73,14 @@ export default function StartPage() {
 
         {/* 제록이 */}
         <div className="relative mt-3 animate-bob">
-          <div className="absolute inset-0 -z-10 m-auto h-36 w-36 rounded-full bg-gradient-to-br from-mandarin/40 to-brand/15 blur-2xl" />
+          <div className="absolute inset-0 -z-10 m-auto h-28 w-28 rounded-full bg-white/70 blur-xl" />
+          <div className="absolute inset-0 -z-20 m-auto h-40 w-40 rounded-full bg-gradient-to-br from-mandarin/25 to-brand/10 blur-2xl" />
           <img
             src="/img/deer-mandarin.png"
             alt="귤 들고 있는 제록이"
             className="h-32 w-auto"
             style={{
-              filter:
-                'drop-shadow(0 4px 8px rgba(255, 138, 61, 0.25)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08))',
+              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12))',
             }}
           />
         </div>

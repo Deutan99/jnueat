@@ -70,14 +70,16 @@ export default function ResultStage({ resName, resUrl, category, walkingMin, add
             {/* 제록이 + 말풍선 */}
             <div className="flex items-end justify-center gap-1">
               <div className="relative animate-bob">
-                <div className="absolute inset-0 -z-10 m-auto h-28 w-28 rounded-full bg-gradient-to-br from-mandarin/40 to-brand/20 blur-2xl" />
+                {/* 색 번짐 방지용 흰색 헤일로 (가까이) */}
+                <div className="absolute inset-0 -z-10 m-auto h-24 w-24 rounded-full bg-white/70 blur-xl" />
+                {/* 만다린 글로우 (멀리) */}
+                <div className="absolute inset-0 -z-20 m-auto h-32 w-32 rounded-full bg-gradient-to-br from-mandarin/25 to-brand/10 blur-2xl" />
                 <img
                   src="/img/deer-happy.png"
                   alt="신난 제록이"
                   className="h-28 w-auto"
                   style={{
-                    filter:
-                      'drop-shadow(0 4px 10px rgba(255, 138, 61, 0.3)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))',
+                    filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12))',
                   }}
                 />
               </div>
