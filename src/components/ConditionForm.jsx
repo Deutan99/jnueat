@@ -14,8 +14,8 @@ export default function ConditionForm({
   showTime = true,
 }) {
   return (
-    <div className="space-y-2">
-      <Row label="위치">
+    <div className="space-y-2.5">
+      <Field label="위치">
         <select
           className="field"
           value={location ? JSON.stringify(location) : ''}
@@ -31,30 +31,30 @@ export default function ConditionForm({
             </option>
           ))}
         </select>
-      </Row>
+      </Field>
       {showTime && (
-        <Row label="시간">
+        <Field label="도보 시간">
           <select className="field" value={time || ''} onChange={(e) => onTime(e.target.value)}>
             <option value="">소요 시간 선택</option>
             <option value="5">5분 이내</option>
             <option value="10">10분 이내</option>
             <option value="15">15분 이내</option>
           </select>
-        </Row>
+        </Field>
       )}
       {showMood && (
-        <Row label="기분">
+        <Field label="기분 (선택)">
           <input
             className="field"
             type="text"
-            placeholder="예: 비 오는 날 따뜻한 거 (선택)"
+            placeholder="예: 비 오는 날 따뜻한 거"
             value={mood || ''}
             onChange={(e) => onMood(e.target.value)}
           />
-        </Row>
+        </Field>
       )}
       <button
-        className={`w-full text-base mt-1 ${submitDisabled ? 'btn-secondary' : 'btn-primary'}`}
+        className={`w-full text-base mt-2 ${submitDisabled ? 'btn-secondary' : 'btn-primary'}`}
         onClick={onSubmit}
         disabled={submitDisabled}
       >
@@ -64,11 +64,13 @@ export default function ConditionForm({
   );
 }
 
-function Row({ label, children }) {
+function Field({ label, children }) {
   return (
-    <div className="flex items-center gap-3">
-      <span className="w-12 shrink-0 text-sm font-semibold text-slate-600">{label}</span>
-      <div className="flex-1">{children}</div>
-    </div>
+    <label className="block">
+      <span className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-500">
+        {label}
+      </span>
+      {children}
+    </label>
   );
 }

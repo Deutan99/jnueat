@@ -72,9 +72,15 @@ export default function BrowsePage() {
       {stage === 1 && (
         <>
           <Contents>
-            <div className="grid h-full place-items-center px-3 text-center">
+            <div className="relative grid h-full place-items-center px-3 text-center">
+              <div className="pointer-events-none absolute inset-0 -z-0 m-auto h-32 w-32 rounded-full bg-mandarin/20 blur-3xl" />
               <div>
-                <img src="/img/제록이2.png" alt="제록이" className="mx-auto h-28 w-auto" />
+                <img
+                  src="/img/deer-mandarin.png"
+                  alt="제록이"
+                  className="mx-auto h-28 w-auto"
+                  style={{ filter: 'drop-shadow(0 4px 8px rgba(255, 138, 61, 0.2))' }}
+                />
                 <p className="mt-2 text-sm text-slate-500">위치와 도보 시간을 알려줘</p>
               </div>
             </div>

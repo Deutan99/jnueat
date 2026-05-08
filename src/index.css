@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  html, body, #root { height: 100%; }
+  html, body, #root { height: 100dvh; }
   body {
     @apply text-slate-900 antialiased;
     font-family: 'Noto Sans KR', system-ui, sans-serif;

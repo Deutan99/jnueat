@@ -6,6 +6,20 @@ export default {
       fontFamily: {
         jua: ['Jua', 'sans-serif'],
       },
+      keyframes: {
+        bob: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
+        },
+        floatSlow: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-3px)' },
+        },
+      },
+      animation: {
+        bob: 'bob 3s ease-in-out infinite',
+        'float-slow': 'floatSlow 4s ease-in-out infinite',
+      },
       colors: {
         brand: {
           DEFAULT: '#2183dd',
