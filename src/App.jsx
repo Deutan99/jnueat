@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import StartPage from './pages/StartPage';
 import MainPage from './pages/MainPage';
 import BrowsePage from './pages/BrowsePage';
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/ai" element={<AIPage />} />
         <Route path="/browse" element={<BrowsePage />} />
       </Routes>
+      <Analytics />
     </div>
   );
 }
