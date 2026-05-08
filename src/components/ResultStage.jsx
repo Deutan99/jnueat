@@ -1,9 +1,54 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Contents, Footer } from './Layout';
+import { loadKakaoShare } from '../lib/kakao';
+
+const SITE_URL = 'https://jnueat.vercel.app';
+const SHARE_IMAGE = `${SITE_URL}/img/deer-mandarin.png`;
 
 export default function ResultStage({ resName, resUrl, category, walkingMin, address }) {
   const placeUrl = `https://place.map.kakao.com/${resUrl}`;
   const validUrl = resUrl && resUrl !== 'null';
+  const [sharing, setSharing] = useState(false);
+
+  async function handleShare() {
+    if (sharing) return;
+    setSharing(true);
+    try {
+      const Kakao = await loadKakaoShare();
+      const descParts = [];
+      if (category) descParts.push(category);
+      if (walkingMin != null) descParts.push(`도보 ${walkingMin}분`);
+      if (address) descParts.push(address);
+
+      Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: `오늘의 픽: ${resName} 🎉`,
+          description: descParts.join(' · ') || '제주대 근처 맛집 추천',
+          imageUrl: SHARE_IMAGE,
+          link: { mobileWebUrl: SITE_URL, webUrl: SITE_URL },
+        },
+        buttons: [
+          ...(validUrl
+            ? [{
+                title: '식당 보러가기',
+                link: { mobileWebUrl: placeUrl, webUrl: placeUrl },
+              }]
+            : []),
+          {
+            title: '나도 골라보기',
+            link: { mobileWebUrl: SITE_URL, webUrl: SITE_URL },
+          },
+        ],
+      });
+    } catch (e) {
+      console.error('[Kakao Share]', e);
+      alert(`카카오 공유 실패: ${e?.message || e}`);
+    } finally {
+      setSharing(false);
+    }
+  }
 
   return (
     <>
@@ -73,20 +118,53 @@ export default function ResultStage({ resName, resUrl, category, walkingMin, add
         </div>
       </Contents>
       <Footer>
-        {validUrl ? (
-          <a
-            href={placeUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-primary block w-full text-center text-base"
+        <div className="grid grid-cols-2 gap-2">
+          {validUrl ? (
+            <a
+              href={placeUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-primary text-sm"
+            >
+              <svg
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+                className="mr-1 h-4 w-4"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 1.5a6.5 6.5 0 0 0-6.5 6.5c0 4.5 6.5 10.5 6.5 10.5s6.5-6 6.5-10.5A6.5 6.5 0 0 0 10 1.5zm0 9a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              카카오맵에서 보기
+            </a>
+          ) : (
+            <button disabled className="btn-secondary text-sm opacity-60 cursor-not-allowed">
+              지도 링크 없음
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={handleShare}
+            disabled={sharing}
+            style={{ backgroundColor: '#FEE500', color: '#3C1E1E' }}
+            className="btn text-sm shadow-sm ring-1 ring-black/5 hover:brightness-95 disabled:opacity-60"
           >
-            카카오맵에서 보기 →
-          </a>
-        ) : (
-          <button disabled className="btn-secondary block w-full text-base opacity-60 cursor-not-allowed">
-            카카오맵 링크 없음
+            <svg
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+              className="mr-1 h-4 w-4"
+              fill="currentColor"
+            >
+              <path d="M10 2.5C5.58 2.5 2 5.27 2 8.69c0 2.21 1.5 4.14 3.76 5.24-.13.43-.49 1.6-.56 1.85-.08.31.11.31.24.23.1-.07 1.61-1.09 2.27-1.54.74.11 1.5.16 2.29.16 4.42 0 8-2.77 8-6.18S14.42 2.5 10 2.5z" />
+            </svg>
+            {sharing ? '여는 중…' : '카카오톡 공유'}
           </button>
-        )}
+        </div>
+
         <Link
           to="/"
           className="mt-2 block text-center text-sm text-slate-500 underline underline-offset-4"

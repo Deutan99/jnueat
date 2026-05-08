@@ -35,6 +35,11 @@ export default {
           DEFAULT: '#fff7ec',
           dark: '#f4ead8',
         },
+        kakao: {
+          DEFAULT: '#FEE500',
+          dark: '#E6CF00',
+          ink: '#3C1E1E',
+        },
       },
     },
   },
