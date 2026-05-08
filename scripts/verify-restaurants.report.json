@@ -1,0 +1,312 @@
+[
+  {
+    "id": 1,
+    "name": "개미와배짱이",
+    "url": "https://place.map.kakao.com/13595973",
+    "status": "OK"
+  },
+  {
+    "id": 2,
+    "name": "거래처",
+    "url": "https://place.map.kakao.com/117033517",
+    "status": "HTTP_ERROR",
+    "http": 400
+  },
+  {
+    "id": 3,
+    "name": "교수회관",
+    "url": "https://place.map.kakao.com/17566601",
+    "status": "OK"
+  },
+  {
+    "id": 4,
+    "name": "국수집",
+    "url": "https://place.map.kakao.com/null",
+    "status": "NOT_FOUND"
+  },
+  {
+    "id": 5,
+    "name": "김밥천국",
+    "url": "https://place.map.kakao.com/8820356",
+    "status": "OK"
+  },
+  {
+    "id": 6,
+    "name": "꽁양꽁양",
+    "url": "https://place.map.kakao.com/1524239383",
+    "status": "OK"
+  },
+  {
+    "id": 7,
+    "name": "다채움",
+    "url": "https://place.map.kakao.com/2048487894",
+    "status": "HTTP_ERROR",
+    "http": 400
+  },
+  {
+    "id": 8,
+    "name": "대구불노리왕막창",
+    "url": "https://place.map.kakao.com/707124913",
+    "status": "HTTP_ERROR",
+    "http": 400
+  },
+  {
+    "id": 9,
+    "name": "돈쫄돈",
+    "url": "https://place.map.kakao.com/1317445359",
+    "status": "HTTP_ERROR",
+    "http": 400
+  },
+  {
+    "id": 10,
+    "name": "맘스터치",
+    "url": "https://place.map.kakao.com/26096457",
+    "status": "OK"
+  },
+  {
+    "id": 11,
+    "name": "매력식당",
+    "url": "https://place.map.kakao.com/1639868766",
+    "status": "HTTP_ERROR",
+    "http": 400
+  },
+  {
+    "id": 12,
+    "name": "메콩스카이",
+    "url": "https://place.map.kakao.com/208073766",
+    "status": "OK"
+  },
+  {
+    "id": 13,
+    "name": "맵수다",
+    "url": "https://place.map.kakao.com/1559908402",
+    "status": "HTTP_ERROR",
+    "http": 400
+  },
+  {
+    "id": 14,
+    "name": "명품치킨",
+    "url": "https://place.map.kakao.com/26432601",
+    "status": "OK"
+  },
+  {
+    "id": 15,
+    "name": "백일흑야",
+    "url": "https://place.map.kakao.com/330254277",
+    "status": "HTTP_ERROR",
+    "http": 400
+  },
+  {
+    "id": 16,
+    "name": "봉구스밥버거",
+    "url": "https://place.map.kakao.com/21688769",
+    "status": "OK"
+  },
+  {
+    "id": 17,
+    "name": "봉수아 피자",
+    "url": "https://place.map.kakao.com/525832872",
+    "status": "NAME_MISSING_IN_PAGE"
+  },
+  {
+    "id": 18,
+    "name": "산들애국수",
+    "url": "https://place.map.kakao.com/20492370",
+    "status": "OK"
+  },
+  {
+    "id": 19,
+    "name": "산아름국수",
+    "url": "https://place.map.kakao.com/21357190",
+    "status": "OK"
+  },
+  {
+    "id": 20,
+    "name": "상아탑식당",
+    "url": "https://place.map.kakao.com/21488539",
+    "status": "OK"
+  },
+  {
+    "id": 21,
+    "name": "서브웨이",
+    "url": "https://place.map.kakao.com/1512304373",
+    "status": "NAME_MISSING_IN_PAGE"
+  },
+  {
+    "id": 22,
+    "name": "서유기",
+    "url": "https://place.map.kakao.com/356711184",
+    "status": "OK"
+  },
+  {
+    "id": 23,
+    "name": "신관 백두관 식당",
+    "url": "https://place.map.kakao.com/13499343",
+    "status": "NAME_MISSING_IN_PAGE"
+  },
+  {
+    "id": 24,
+    "name": "신룽푸",
+    "url": "https://place.map.kakao.com/919828959",
+    "status": "OK"
+  },
+  {
+    "id": 25,
+    "name": "신전떡볶이",
+    "url": "https://place.map.kakao.com/603632383",
+    "status": "OK"
+  },
+  {
+    "id": 26,
+    "name": "쏭스핫도그",
+    "url": "https://place.map.kakao.com/1356360853",
+    "status": "OK"
+  },
+  {
+    "id": 27,
+    "name": "아라주는엄마치킨",
+    "url": "https://place.map.kakao.com/20171821",
+    "status": "OK"
+  },
+  {
+    "id": 28,
+    "name": "여운",
+    "url": "https://place.map.kakao.com/1612497480",
+    "status": "OK"
+  },
+  {
+    "id": 29,
+    "name": "옛날아우네순대 제대점",
+    "url": "https://place.map.kakao.com/334779301",
+    "status": "HTTP_ERROR",
+    "http": 400
+  },
+  {
+    "id": 30,
+    "name": "오니기리와이규동",
+    "url": "https://place.map.kakao.com/12969249",
+    "status": "OK"
+  },
+  {
+    "id": 31,
+    "name": "오소니황칠해장국",
+    "url": "https://place.map.kakao.com/117266997",
+    "status": "OK"
+  },
+  {
+    "id": 32,
+    "name": "와랑와랑",
+    "url": "https://place.map.kakao.com/26460917",
+    "status": "OK"
+  },
+  {
+    "id": 33,
+    "name": "우향",
+    "url": "https://place.map.kakao.com/917821836",
+    "status": "OK"
+  },
+  {
+    "id": 34,
+    "name": "월궁",
+    "url": "https://place.map.kakao.com/9322069",
+    "status": "OK"
+  },
+  {
+    "id": 35,
+    "name": "위드미트",
+    "url": "https://place.map.kakao.com/117173230",
+    "status": "OK"
+  },
+  {
+    "id": 36,
+    "name": "이삭토스트",
+    "url": "https://place.map.kakao.com/11179297",
+    "status": "OK"
+  },
+  {
+    "id": 37,
+    "name": "이왕돈가스",
+    "url": "https://place.map.kakao.com/2127888633",
+    "status": "OK"
+  },
+  {
+    "id": 38,
+    "name": "잇마이피자",
+    "url": "https://place.map.kakao.com/1777197845",
+    "status": "OK"
+  },
+  {
+    "id": 39,
+    "name": "제대김밥",
+    "url": "https://place.map.kakao.com/1345909823",
+    "status": "OK"
+  },
+  {
+    "id": 40,
+    "name": "종합강의실",
+    "url": "https://place.map.kakao.com/null",
+    "status": "NOT_FOUND"
+  },
+  {
+    "id": 41,
+    "name": "진성반점",
+    "url": "https://place.map.kakao.com/12606690",
+    "status": "OK"
+  },
+  {
+    "id": 42,
+    "name": "콘킹부대찌개",
+    "url": "https://place.map.kakao.com/21525668",
+    "status": "NAME_MISSING_IN_PAGE"
+  },
+  {
+    "id": 43,
+    "name": "텐동아우라",
+    "url": "https://place.map.kakao.com/253333044",
+    "status": "OK"
+  },
+  {
+    "id": 44,
+    "name": "푸라닭치킨 제주대점",
+    "url": "https://place.map.kakao.com/1502959810",
+    "status": "OK"
+  },
+  {
+    "id": 45,
+    "name": "학교종이 땡땡땡",
+    "url": "https://place.map.kakao.com/758756399",
+    "status": "NAME_MISSING_IN_PAGE"
+  },
+  {
+    "id": 46,
+    "name": "한솥도시락",
+    "url": "https://place.map.kakao.com/1608196405",
+    "status": "OK"
+  },
+  {
+    "id": 47,
+    "name": "흥부",
+    "url": "https://place.map.kakao.com/25402919",
+    "status": "OK"
+  },
+  {
+    "id": 48,
+    "name": "짬스뽕스",
+    "url": "https://place.map.kakao.com/2060597088",
+    "status": "OK"
+  },
+  {
+    "id": 49,
+    "name": "용의주도 라멘집",
+    "url": "https://place.map.kakao.com/1557097642",
+    "status": "HTTP_ERROR",
+    "http": 400
+  },
+  {
+    "id": 50,
+    "name": "제대로떡볶이",
+    "url": "https://place.map.kakao.com/733655520",
+    "status": "HTTP_ERROR",
+    "http": 400
+  }
+]

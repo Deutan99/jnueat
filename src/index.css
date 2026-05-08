@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    @apply text-slate-900 antialiased;
+    font-family: 'Noto Sans KR', system-ui, sans-serif;
+    background-color: #fff7ec;
+    background-image:
+      radial-gradient(at 20% 0%, rgba(255, 138, 61, 0.12) 0, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(33, 131, 221, 0.08) 0, transparent 50%);
+  }
+  select, input { font-family: inherit; }
+}
+
+@layer components {
+  /* Buttons — only 3 levels: primary (action), secondary (alt), danger (negative) */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-brand text-white hover:bg-brand-dark disabled:bg-slate-200 disabled:text-slate-400;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 disabled:opacity-60;
+  }
+  .btn-danger {
+    @apply btn bg-rose-500 text-white hover:bg-rose-600;
+  }
+  /* Legacy aliases (gradually phase out) */
+  .btn-ghost { @apply btn-secondary; }
+  .btn-mandarin { @apply btn bg-mandarin text-white hover:bg-mandarin-dark; }
+
+  /* Card */
+  .card { @apply bg-white rounded-2xl shadow-sm ring-1 ring-slate-200; }
+
+  /* Chip / badge */
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .chip-mandarin { @apply chip bg-mandarin-soft text-mandarin-dark; }
+  .chip-brand { @apply chip bg-brand/10 text-brand; }
+  .chip-slate { @apply chip bg-slate-100 text-slate-600; }
+
+  /* Form input look used in selects/text inputs */
+  .field {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20;
+  }
+}
+
+/* Kakao map customizations (outside Tailwind layers — Kakao injects raw HTML) */
+.kakao-place-label {
+  background: white;
+  color: #1565b0;
+  border: 1.5px solid #2183dd;
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+  font-family: inherit;
+}
+.kakao-place-info {
+  padding: 10px 14px 12px;
+  font-family: inherit;
+  min-width: 180px;
+}
+.kakao-place-info__name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #2183dd;
+  margin-bottom: 4px;
+}
+.kakao-place-info__meta {
+  font-size: 11px;
+  color: #ff8a3d;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.kakao-place-info__addr {
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.4;
+}
+.kakao-user-label {
+  background: #2183dd;
+  color: white;
+  border-radius: 9999px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  font-family: inherit;
+}
