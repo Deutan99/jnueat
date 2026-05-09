@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useMemo, useState } from 'react';
 import ManualPopup from './ManualPopup';
+import restaurants from '../data/restaurant.json';
 
 const GREETINGS = [
   '오늘은 뭐 먹을까? 🤔',
@@ -92,7 +93,7 @@ export default function StartPage() {
         {/* 스탯 */}
         <div className="mt-3 flex items-center gap-1.5 text-[11px]">
           <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 font-semibold text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">
-            <span className="text-mandarin-dark">●</span> 50곳 등록
+            <span className="text-mandarin-dark">●</span> {restaurants.length}곳 등록
           </span>
           <span className="text-slate-300">·</span>
           <span className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2.5 py-1 font-semibold text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">
@@ -121,7 +122,7 @@ export default function StartPage() {
           <span className="text-xl opacity-80">›</span>
         </Link>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-3 gap-2">
           <Link
             to="/main"
             className="flex flex-col items-start gap-1 rounded-2xl bg-white px-3 py-3 ring-1 ring-slate-200 shadow-sm transition active:scale-[0.98] hover:ring-brand"
@@ -129,18 +130,28 @@ export default function StartPage() {
             <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand/10 text-xl">
               🎰
             </span>
-            <span className="font-jua text-sm leading-tight text-slate-800">룰렛으로 정하기</span>
+            <span className="font-jua text-sm leading-tight text-slate-800">룰렛</span>
             <span className="text-[10px] text-slate-500">운명에 맡기기</span>
           </Link>
           <Link
-            to="/browse"
+            to="/categories"
             className="flex flex-col items-start gap-1 rounded-2xl bg-white px-3 py-3 ring-1 ring-slate-200 shadow-sm transition active:scale-[0.98] hover:ring-mandarin"
           >
             <span className="grid h-9 w-9 place-items-center rounded-lg bg-mandarin/10 text-xl">
               📋
             </span>
-            <span className="font-jua text-sm leading-tight text-slate-800">카테고리별 보기</span>
-            <span className="text-[10px] text-slate-500">거리순으로 직접</span>
+            <span className="font-jua text-sm leading-tight text-slate-800">카테고리</span>
+            <span className="text-[10px] text-slate-500">전체 분류 보기</span>
+          </Link>
+          <Link
+            to="/nearby"
+            className="flex flex-col items-start gap-1 rounded-2xl bg-white px-3 py-3 ring-1 ring-slate-200 shadow-sm transition active:scale-[0.98] hover:ring-brand"
+          >
+            <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand/10 text-xl">
+              🗺️
+            </span>
+            <span className="font-jua text-sm leading-tight text-slate-800">거리순</span>
+            <span className="text-[10px] text-slate-500">지도로 둘러보기</span>
           </Link>
         </div>
       </div>

@@ -15,10 +15,15 @@ export default {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-3px)' },
         },
+        spinPulse: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.08)' },
+        },
       },
       animation: {
         bob: 'bob 3s ease-in-out infinite',
         'float-slow': 'floatSlow 4s ease-in-out infinite',
+        'spin-pulse': 'spinPulse 1.6s ease-in-out infinite',
       },
       colors: {
         brand: {

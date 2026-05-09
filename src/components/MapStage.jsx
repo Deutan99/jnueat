@@ -106,16 +106,7 @@ export default function MapStage({ state, setState, nextStage }) {
         {mapError ? (
           <FallbackList state={state} />
         ) : (
-          <div className="relative h-full w-full">
-            {state.location?.name && (
-              <div className="pointer-events-none absolute left-1/2 top-3 z-10 -translate-x-1/2">
-                <span className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 text-xs font-bold text-brand shadow-md ring-1 ring-brand/30">
-                  📍 {state.location.name}
-                </span>
-              </div>
-            )}
-            <div ref={mapEl} className="h-full w-full" />
-          </div>
+          <div ref={mapEl} className="h-full w-full" />
         )}
       </Contents>
       <Footer>

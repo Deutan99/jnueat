@@ -6,9 +6,17 @@ import { loadKakaoShare } from '../lib/kakao';
 const SITE_URL = 'https://jnueat.vercel.app';
 const SHARE_IMAGE = `${SITE_URL}/img/deer-mandarin.png`;
 
+const CAFETERIA_MENU_URL = {
+  '신관 백두관 식당': 'https://jejunu.ac.kr/camp/stud/foodmenu/firstfixmenu.htm',
+  '교수회관': 'https://jejunu.ac.kr/camp/stud/foodmenu/fifthmenu.htm',
+  '학생생활관 6호관': 'https://jejunu.ac.kr/camp/stud/foodmenu/fixfirst.htm',
+  '학생생활관 1호관': 'https://jejunu.ac.kr/camp/stud/foodmenu/fixmenu.htm',
+};
+
 export default function ResultStage({ resName, resUrl, category, walkingMin, address }) {
   const placeUrl = `https://place.map.kakao.com/${resUrl}`;
   const validUrl = resUrl && resUrl !== 'null';
+  const cafeteriaMenuUrl = category === '학식' ? CAFETERIA_MENU_URL[resName] : null;
   const [sharing, setSharing] = useState(false);
 
   async function handleShare() {
@@ -114,6 +122,17 @@ export default function ResultStage({ resName, resUrl, category, walkingMin, add
                   <span className="text-sm">📍</span>
                   <p className="text-[11px] leading-relaxed text-slate-600">{address}</p>
                 </div>
+              )}
+
+              {cafeteriaMenuUrl && (
+                <a
+                  href={cafeteriaMenuUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex items-center gap-1 rounded-lg bg-brand/10 px-3 py-2 text-xs font-semibold text-brand hover:bg-brand/15"
+                >
+                  🍱 이번 주 학식 메뉴 보기 ↗
+                </a>
               )}
             </div>
           </div>

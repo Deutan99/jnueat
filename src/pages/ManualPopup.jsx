@@ -15,16 +15,23 @@ const MODES = [
   },
   {
     icon: '📋',
-    name: '카테고리별 보기',
-    desc: '도보 시간 안에 있는 식당을 거리순으로 직접 골라요.',
-    bg: 'bg-slate-100',
-    accent: 'text-slate-700',
+    name: '카테고리만 보기',
+    desc: '전체 식당을 카테고리로 분류해서 둘러봐요. 위치 입력 불필요.',
+    bg: 'bg-mandarin/10',
+    accent: 'text-mandarin-dark',
+  },
+  {
+    icon: '🗺️',
+    name: '거리순으로 직접',
+    desc: '위치·시간을 입력하고 지도와 리스트에서 직접 골라요.',
+    bg: 'bg-brand/10',
+    accent: 'text-brand',
   },
 ];
 
 const TIPS = [
-  { icon: '📍', text: '먼저 학교 안 출발 건물과 도보 시간을 알려주세요.' },
-  { icon: '🚶', text: '5·10·15분 거리로 후보를 좁혀줘요.' },
+  { icon: '📍', text: '거리 기반 모드는 출발 건물과 도보 시간을 알려주세요.' },
+  { icon: '🚶', text: '5·10·15분 거리로 후보를 좁힐 수 있어요.' },
   { icon: '🗺️', text: '결과 화면에서 카카오맵으로 위치·메뉴 확인.' },
 ];
 
@@ -74,7 +81,7 @@ export default function ManualPopup({ onClose }) {
         <div className="max-h-[60vh] overflow-y-auto px-5 py-4">
           {/* 3가지 방식 */}
           <p className="text-[11px] font-semibold tracking-wider text-slate-500">
-            3가지 방식 중 골라요
+            4가지 방식 중 골라요
           </p>
           <ul className="mt-2 space-y-2">
             {MODES.map((m) => (

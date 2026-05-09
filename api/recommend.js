@@ -1,5 +1,35 @@
 import OpenAI from 'openai';
 
+const LIMITS = {
+  candidatesMax: 200,
+  moodMax: 100,
+  reasonMax: 200,
+  rejectionsMax: 30,
+  rate: { windowMs: 60_000, max: 30 },
+};
+
+const buckets = new Map();
+
+function getIp(req) {
+  const fwd = req.headers['x-forwarded-for'];
+  if (typeof fwd === 'string') return fwd.split(',')[0].trim();
+  return req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown';
+}
+
+function rateLimit(ip) {
+  const now = Date.now();
+  const bucket = buckets.get(ip);
+  if (!bucket || bucket.resetAt <= now) {
+    buckets.set(ip, { count: 1, resetAt: now + LIMITS.rate.windowMs });
+    return { ok: true };
+  }
+  if (bucket.count >= LIMITS.rate.max) {
+    return { ok: false, retryAfter: Math.ceil((bucket.resetAt - now) / 1000) };
+  }
+  bucket.count++;
+  return { ok: true };
+}
+
 async function readJsonBody(req) {
   if (req.body && typeof req.body === 'object') return req.body;
   const chunks = [];
@@ -59,6 +89,13 @@ function formatRejections(rejections) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return send(res, 405, { error: 'Method Not Allowed' });
 
+  const ip = getIp(req);
+  const rl = rateLimit(ip);
+  if (!rl.ok) {
+    res.setHeader('Retry-After', String(rl.retryAfter));
+    return send(res, 429, { error: `요청이 너무 많아요. ${rl.retryAfter}초 후 다시 시도해줘.` });
+  }
+
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return send(res, 500, { error: 'OPENAI_API_KEY가 서버에 설정되지 않았어요. .env에 추가해줘.' });
 
@@ -72,16 +109,27 @@ export default async function handler(req, res) {
   const { mode, candidates = [], mood = '', rejections = [] } = body;
   if (mode !== 'category' && mode !== 'restaurant') return send(res, 400, { error: 'mode는 category 또는 restaurant' });
   if (!Array.isArray(candidates) || candidates.length === 0) return send(res, 400, { error: 'candidates가 비어있음' });
+  if (candidates.length > LIMITS.candidatesMax) {
+    return send(res, 400, { error: `후보가 너무 많아요 (최대 ${LIMITS.candidatesMax}개)` });
+  }
+
+  const safeMood = String(mood || '').slice(0, LIMITS.moodMax);
+  const safeRejections = (Array.isArray(rejections) ? rejections : [])
+    .slice(0, LIMITS.rejectionsMax)
+    .map((r) => ({
+      text: String(r?.text ?? '').slice(0, 100),
+      reason: String(r?.reason ?? '').slice(0, LIMITS.reasonMax),
+    }));
 
   const candidateTexts = candidates.map((c) => String(c?.text ?? '')).filter(Boolean);
   if (candidateTexts.length === 0) return send(res, 400, { error: '후보 텍스트가 없음' });
 
   const userPrompt = [
-    mood ? `사용자 기분/상황: "${mood}"` : '사용자가 기분을 따로 말하지 않았음.',
+    safeMood ? `사용자 기분/상황: "${safeMood}"` : '사용자가 기분을 따로 말하지 않았음.',
     '',
     `후보 ${mode === 'category' ? '카테고리' : '식당'} 목록:`,
     formatCandidates(mode, candidates),
-    formatRejections(rejections),
+    formatRejections(safeRejections),
     '',
     '이 중에서 하나를 골라줘.',
   ].join('\n');

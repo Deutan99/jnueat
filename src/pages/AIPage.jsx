@@ -25,7 +25,6 @@ export default function AIPage() {
   const [rejections, setRejections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [rejectMode, setRejectMode] = useState(false);
   const [rejectReason, setRejectReason] = useState('');
 
   const filtered = useMemo(() => {
@@ -73,7 +72,6 @@ export default function AIPage() {
 
   function applyReject(text) {
     setRejections((prev) => [...prev, { text: picked?.RES_NAME, reason: text || '' }]);
-    setRejectMode(false);
     setRejectReason('');
     setPicked(null);
     setReason('');
@@ -117,16 +115,47 @@ export default function AIPage() {
       {stage === 1 && (
         <>
           <Contents>
-            <div className="relative grid h-full place-items-center px-3 text-center">
-              <div className="pointer-events-none absolute inset-0 -z-0 m-auto h-32 w-32 rounded-full bg-mandarin/20 blur-3xl" />
-              <div>
-                <img
-                  src="/img/deer-graduate.png"
-                  alt="제록이"
-                  className="mx-auto h-28 w-auto"
-                  style={{ filter: 'drop-shadow(0 4px 8px rgba(255, 138, 61, 0.2))' }}
-                />
-                <p className="mt-2 text-sm text-slate-500">조건과 기분만 알려주면<br />제록이가 한 번에 골라줄게요</p>
+            <div className="relative grid h-full place-items-center px-4 text-center overflow-hidden">
+              {/* 배경 그라디언트 */}
+              <div className="pointer-events-none absolute inset-0 -z-10">
+                <div className="absolute inset-0 bg-gradient-to-b from-mandarin-soft/40 via-white to-cream/40" />
+                <div className="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-mandarin/25 blur-3xl" />
+                <div className="absolute -bottom-12 -left-12 h-44 w-44 rounded-full bg-brand/15 blur-3xl" />
+              </div>
+
+              <div className="w-full max-w-xs space-y-4">
+                {/* 말풍선 */}
+                <div className="relative mx-auto inline-block animate-float-slow">
+                  <div className="rounded-2xl bg-white px-4 py-2 shadow-md ring-1 ring-slate-100">
+                    <p className="font-jua text-sm text-mandarin-dark">기분만 알려줘! 🦌</p>
+                  </div>
+                  <div className="absolute left-1/2 -bottom-1.5 h-3 w-3 -translate-x-1/2 rotate-45 bg-white ring-1 ring-slate-100" />
+                </div>
+
+                {/* 캐릭터 */}
+                <div className="relative animate-bob">
+                  <div className="absolute inset-0 -z-10 m-auto h-28 w-28 rounded-full bg-white/70 blur-xl" />
+                  <div className="absolute inset-0 -z-20 m-auto h-40 w-40 rounded-full bg-gradient-to-br from-mandarin/25 to-brand/10 blur-2xl" />
+                  <img
+                    src="/img/deer-graduate.png"
+                    alt="학사 제록이"
+                    className="mx-auto h-32 w-auto"
+                    style={{ filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12))' }}
+                  />
+                </div>
+
+                {/* 안내 */}
+                <p className="text-sm leading-relaxed text-slate-600">
+                  조건과 기분을 알려주면<br />
+                  <span className="font-jua text-mandarin-dark">AI가 한 번에</span> 골라줄게요
+                </p>
+
+                {/* 기분 예시 칩 */}
+                <div className="flex flex-wrap justify-center gap-1.5">
+                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-[11px] text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">🍜 따끈한</span>
+                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-[11px] text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">🥗 가벼운</span>
+                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-[11px] text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">🥩 든든한</span>
+                </div>
               </div>
             </div>
           </Contents>
@@ -189,7 +218,7 @@ export default function AIPage() {
                     </div>
                     <div className="relative mb-3 -ml-2">
                       <div className="rounded-2xl bg-white px-3 py-1.5 shadow-md ring-1 ring-slate-100">
-                        <p className="font-jua text-xs text-brand">이거 어때? 🍊</p>
+                        <p className="font-jua text-xs text-brand">오늘은 이거! 🎉</p>
                       </div>
                       <div className="absolute -left-1 bottom-2 h-2.5 w-2.5 rotate-45 bg-white ring-1 ring-slate-100" />
                     </div>
@@ -197,8 +226,8 @@ export default function AIPage() {
 
                   {/* 식당 카드 */}
                   <div className="rounded-2xl bg-white px-4 py-4 shadow-md ring-1 ring-slate-100">
-                    <p className="text-[10px] font-semibold tracking-[0.25em] text-mandarin-dark">
-                      PICKED FOR YOU
+                    <p className="text-xs font-semibold text-mandarin-dark">
+                      🦌 제록이 추천
                     </p>
                     <h2 className="mt-1 font-jua text-3xl leading-tight text-brand">
                       {picked.RES_NAME}
@@ -239,34 +268,24 @@ export default function AIPage() {
               <button onClick={fetchPick} className="btn-primary w-full text-base">
                 다시 시도
               </button>
-            ) : rejectMode ? (
+            ) : (
               <div className="space-y-2">
                 <input
-                  autoFocus
                   type="text"
-                  placeholder="왜 별로? (선택)"
+                  placeholder="왜 별로인지 알려주면 다음엔 더 잘 골라볼게! (선택)"
                   value={rejectReason}
+                  maxLength={200}
                   onChange={(e) => setRejectReason(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') applyReject(rejectReason); }}
-                  className="w-full rounded-lg border-2 border-slate-300 px-3 py-2 text-sm"
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs placeholder:text-slate-400 focus:border-brand focus:bg-white focus:outline-none"
                 />
                 <div className="grid grid-cols-2 gap-2">
-                  <button className="btn-ghost text-base" onClick={() => { setRejectMode(false); setRejectReason(''); }}>
-                    취소
-                  </button>
                   <button className="btn-danger text-base" onClick={() => applyReject(rejectReason)}>
-                    다른 거 추천
+                    다른 거 보여줘
+                  </button>
+                  <button className="btn-primary text-base" onClick={() => setStage(3)}>
+                    이걸로!
                   </button>
                 </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-2">
-                <button className="btn-danger text-base" onClick={() => setRejectMode(true)}>
-                  별로에요
-                </button>
-                <button className="btn-primary text-base" onClick={() => setStage(3)}>
-                  좋아요
-                </button>
               </div>
             )}
           </Footer>

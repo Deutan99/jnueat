@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Header from '../components/Header';
@@ -32,9 +32,10 @@ export default function MainPage() {
   const [history, setHistory] = useState([]);
   const navigate = useNavigate();
 
-  const nextStage = () => {
+  const nextStage = (patch) => {
     setHistory((h) => [...h, state]);
-    setState((s) => ({ ...s, curStage: Math.min(5, s.curStage + 1) }));
+    setState((s) => ({ ...s, ...(patch || {}), curStage: Math.min(5, s.curStage + 1) }));
+    window.history.pushState(null, '');
   };
 
   const prevStage = () => {
@@ -42,10 +43,20 @@ export default function MainPage() {
       navigate('/');
       return;
     }
-    const prev = history[history.length - 1];
-    setState(prev);
-    setHistory((h) => h.slice(0, -1));
+    window.history.back();
   };
+
+  useEffect(() => {
+    const onPopState = () => {
+      setHistory((h) => {
+        if (h.length === 0) return h;
+        setState(h[h.length - 1]);
+        return h.slice(0, -1);
+      });
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   const isMapStage =
     state.curStage !== 5 && state.curStage % 2 === 1;

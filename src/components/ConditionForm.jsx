@@ -12,6 +12,7 @@ export default function ConditionForm({
   submitLabel = '다음',
   showMood = true,
   showTime = true,
+  children,
 }) {
   return (
     <div className="space-y-2.5">
@@ -47,19 +48,22 @@ export default function ConditionForm({
           <input
             className="field"
             type="text"
-            placeholder="예: 비 오는 날 따뜻한 거"
+            placeholder="예: 따끈한 국물, 가벼운 한 끼"
             value={mood || ''}
+            maxLength={100}
             onChange={(e) => onMood(e.target.value)}
           />
         </Field>
       )}
-      <button
-        className={`w-full text-base mt-2 ${submitDisabled ? 'btn-secondary' : 'btn-primary'}`}
-        onClick={onSubmit}
-        disabled={submitDisabled}
-      >
-        {submitLabel}
-      </button>
+      {children ?? (
+        <button
+          className={`w-full text-base mt-2 ${submitDisabled ? 'btn-secondary' : 'btn-primary'}`}
+          onClick={onSubmit}
+          disabled={submitDisabled}
+        >
+          {submitLabel}
+        </button>
+      )}
     </div>
   );
 }

@@ -3,6 +3,15 @@ import { Contents, Footer } from './Layout';
 import { aiRecommend } from '../lib/aiRecommend';
 import { walkingMinutes } from '../lib/distance';
 
+const CATEGORY_SHORT_LABEL = {
+  '찜-탕-찌개': '찌개',
+  '백반-죽-국수': '백반',
+  '돈까스-회-일식': '일식',
+  '고기-구이': '고기',
+  '패스트푸드': '패스트',
+  '마라요리': '마라',
+};
+
 function buildEnrichedCandidates(state) {
   if (state.curStage === 4) {
     return state.rouletteList.map((item) => {
@@ -35,12 +44,10 @@ export default function RouletteStage({ state, setState, nextStage }) {
 
   useEffect(() => {
     if (state.rouletteList?.length === 1) {
-      setState((s) => ({
-        ...s,
-        curStage: s.curStage + 1,
-        rouletteResult: s.rouletteList[0],
+      nextStage({
+        rouletteResult: state.rouletteList[0],
         rouletteList: [],
-      }));
+      });
     }
   }, []);
 
@@ -49,10 +56,14 @@ export default function RouletteStage({ state, setState, nextStage }) {
     if (!state.rouletteList?.length) return;
 
     const segCount = state.rouletteList.length;
-    const fontSize = segCount > 12 ? 12 : segCount > 8 ? 14 : segCount > 5 ? 16 : 18;
+    const isCategoryStage = state.curStage === 2;
+    const fontSize = segCount > 12 ? 16 : segCount > 8 ? 18 : segCount > 5 ? 20 : 22;
     const maxChars = segCount > 12 ? 4 : segCount > 8 ? 5 : segCount > 5 ? 6 : 8;
-    const truncate = (t) => (t.length > maxChars ? t.slice(0, maxChars - 1) + '…' : t);
-    const innerRadius = segCount > 8 ? 40 : 32;
+    const truncate = (t) => {
+      if (isCategoryStage && CATEGORY_SHORT_LABEL[t]) return CATEGORY_SHORT_LABEL[t];
+      return t.length > maxChars ? t.slice(0, maxChars - 1) + '…' : t;
+    };
+    const innerRadius = segCount > 8 ? 44 : 36;
 
     wheelRef.current = new window.Winwheel({
       canvasId: canvasRef.current.id,
@@ -61,9 +72,9 @@ export default function RouletteStage({ state, setState, nextStage }) {
       innerRadius,
       textFontSize: fontSize,
       textFontWeight: 'bold',
-      textOrientation: 'curved',
+      textOrientation: 'horizontal',
       textAlignment: 'outer',
-      textMargin: 4,
+      textMargin: 6,
       lineWidth: 2,
       strokeStyle: '#fff',
       segments: state.rouletteList.map((seg) => ({
@@ -138,13 +149,11 @@ export default function RouletteStage({ state, setState, nextStage }) {
     const rejected = { text: winner?.text, reason: reasonText || '' };
     if (state.rouletteList.length <= 2) {
       const remaining = state.rouletteList.find((s) => s.text !== winner?.text);
-      setState((prev) => ({
-        ...prev,
-        curStage: prev.curStage + 1,
+      nextStage({
         rouletteResult: remaining,
         rouletteList: [],
-        rejections: [...(prev.rejections || []), rejected],
-      }));
+        rejections: [...(state.rejections || []), rejected],
+      });
       return;
     }
     setState((prev) => ({
@@ -178,19 +187,55 @@ export default function RouletteStage({ state, setState, nextStage }) {
       <Contents banner={banner}>
         <div className="relative h-full w-full">
           <div className="absolute inset-x-0 top-2 text-center font-jua text-lg text-brand">
-            {winner ? `"${winner.text}" 어떠신가요?` : '돌려돌려 ~ 돌림판'}
+            {winner ? `"${winner.text}" 어떠신가요?` : '오늘 뭐 먹지? 🎰'}
           </div>
           <div className="grid h-full place-items-center pt-8">
             <div className="relative">
-              <div className="absolute left-1/2 -top-2 z-10 -translate-x-1/2 text-3xl text-rose-500">▼</div>
-              <canvas id="wheel-canvas" ref={canvasRef} width="340" height="340" />
+              {/* SVG Pointer */}
+              <div className="absolute left-1/2 -top-3 z-20 -translate-x-1/2">
+                <svg width="36" height="42" viewBox="0 0 36 42" className="drop-shadow-md">
+                  <path
+                    d="M18 38 L3 8 L33 8 Z"
+                    fill="#ef4444"
+                    stroke="#fff"
+                    strokeWidth="3"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+
+              {/* Wheel — entire area is tappable */}
+              <div
+                role="button"
+                tabIndex={!winner && !spinning ? 0 : -1}
+                onClick={!winner && !spinning ? startSpin : undefined}
+                onKeyDown={(e) => {
+                  if ((e.key === 'Enter' || e.key === ' ') && !winner && !spinning) {
+                    e.preventDefault();
+                    startSpin();
+                  }
+                }}
+                className={`relative rounded-full ${!winner && !spinning ? 'cursor-pointer' : ''}`}
+                style={{ filter: 'drop-shadow(0 10px 20px rgba(33, 131, 221, 0.18))' }}
+              >
+                <canvas id="wheel-canvas" ref={canvasRef} width="340" height="340" />
+              </div>
+
+              {/* SPIN button */}
               {!winner && (
                 <button
-                  onClick={startSpin}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    startSpin();
+                  }}
                   disabled={spinning}
-                  className="absolute inset-0 m-auto h-16 w-16 rounded-full bg-white text-xs font-bold text-brand shadow-md ring-2 ring-brand disabled:opacity-50"
+                  className={`absolute inset-0 m-auto h-20 w-20 rounded-full bg-brand text-sm font-bold tracking-wide text-white ring-4 ring-white transition disabled:opacity-60 ${
+                    spinning
+                      ? 'shadow-md'
+                      : 'shadow-xl shadow-brand/40 hover:bg-brand-dark animate-spin-pulse'
+                  }`}
                 >
-                  {spinning ? '회전중' : 'SPIN'}
+                  {spinning ? '돌리는중' : 'SPIN'}
                 </button>
               )}
             </div>
@@ -213,6 +258,7 @@ export default function RouletteStage({ state, setState, nextStage }) {
               type="text"
               placeholder="왜 별로? (선택, 예: 어제 먹었음 / 느끼함)"
               value={rejectReason}
+              maxLength={200}
               onChange={(e) => setRejectReason(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') applyReject(rejectReason); }}
               className="w-full rounded-lg border-2 border-slate-300 px-3 py-2 text-sm"

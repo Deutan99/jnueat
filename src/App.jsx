@@ -2,7 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import StartPage from './pages/StartPage';
 import MainPage from './pages/MainPage';
-import BrowsePage from './pages/BrowsePage';
+import CategoriesPage from './pages/CategoriesPage';
+import NearbyPage from './pages/NearbyPage';
 import AIPage from './pages/AIPage';
 
 export default function App() {
@@ -12,7 +13,8 @@ export default function App() {
         <Route path="/" element={<StartPage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/ai" element={<AIPage />} />
-        <Route path="/browse" element={<BrowsePage />} />
+        <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/nearby" element={<NearbyPage />} />
       </Routes>
       <Analytics />
     </div>
