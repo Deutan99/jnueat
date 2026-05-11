@@ -186,6 +186,11 @@ export default function ResultStage({ resName, resUrl, category, walkingMin, add
           </button>
         </div>
 
+        <p className="mt-2 text-center text-[11px] leading-relaxed text-slate-400">
+          도보 시간은 카카오맵 기준이라 실제와 다를 수 있어요.<br />
+          자세한 식당 정보는 카카오맵을 참고해주세요.
+        </p>
+
         <Link
           to="/"
           className="mt-2 block text-center text-sm text-slate-500 underline underline-offset-4"

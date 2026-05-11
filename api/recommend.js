@@ -140,6 +140,8 @@ export default async function handler(req, res) {
     const response = await client.chat.completions.create({
       model: 'gpt-4o-mini',
       max_tokens: 256,
+      temperature: 0.9,
+      top_p: 0.95,
       messages: [
         { role: 'system', content: SYSTEM_BY_MODE[mode] },
         { role: 'user', content: userPrompt },

@@ -30,7 +30,7 @@ export default function SelectBox({ state, onLocation, onTime, onMood, onNext })
           ))}
         </select>
       </Row>
-      <Row label="시간">
+      <Row label="도보 시간">
         <select className="field" value={state.time || ''} onChange={(e) => onTime(e.target.value)}>
           <option value="">소요 시간 선택</option>
           <option value="5">5분 이내</option>
@@ -38,12 +38,13 @@ export default function SelectBox({ state, onLocation, onTime, onMood, onNext })
           <option value="15">15분 이내</option>
         </select>
       </Row>
-      <Row label="기분">
+      <Row label="기분 (선택)">
         <input
           className="field"
           type="text"
-          placeholder="예: 비 오는 날 따뜻한 거 (선택)"
+          placeholder="예: 따끈한 국물, 가벼운 한 끼"
           value={state.mood || ''}
+          maxLength={100}
           onChange={(e) => onMood(e.target.value)}
         />
       </Row>
@@ -61,8 +62,8 @@ export default function SelectBox({ state, onLocation, onTime, onMood, onNext })
 function Row({ label, children }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="w-12 shrink-0 text-sm font-semibold text-slate-600">{label}</span>
-      <div className="flex-1">{children}</div>
+      <span className="w-20 shrink-0 text-sm font-semibold text-slate-600 whitespace-nowrap">{label}</span>
+      <div className="flex-1 min-w-0">{children}</div>
     </div>
   );
 }

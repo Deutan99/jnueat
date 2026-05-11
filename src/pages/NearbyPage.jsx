@@ -122,13 +122,27 @@ export default function NearbyPage() {
 
                 <p className="text-sm leading-relaxed text-slate-600">
                   위치와 도보 시간을 알려주면<br />
-                  <span className="font-jua text-brand">지도</span>로도 <span className="font-jua text-mandarin-dark">카테고리</span>로도 볼 수 있어요
+                  <span className="font-jua text-brand">지도</span>또는 <span className="font-jua text-mandarin-dark">카테고리</span>로도 볼 수 있어요
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-1.5">
-                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-[11px] text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">🚶 5분 이내</span>
-                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-[11px] text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">🚶 10분 이내</span>
-                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-[11px] text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">🚶 15분 이내</span>
+                  {['5', '10', '15'].map((t) => {
+                    const active = time === t;
+                    return (
+                      <button
+                        key={t}
+                        type="button"
+                        onClick={() => setTime(t)}
+                        className={`rounded-full px-2.5 py-1 text-[11px] shadow-sm backdrop-blur transition active:scale-95 ${
+                          active
+                            ? 'bg-brand text-white ring-1 ring-brand-dark'
+                            : 'bg-white/80 text-slate-600 ring-1 ring-slate-200 hover:bg-white hover:ring-brand'
+                        }`}
+                      >
+                        🚶 {t}분 이내
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -155,6 +169,7 @@ export default function NearbyPage() {
       {stage === 'map' && (
         <NearbyMapView
           location={location}
+          time={time}
           filtered={filtered}
           onPick={(r) => pickRestaurant(r, 'map')}
         />
@@ -163,6 +178,8 @@ export default function NearbyPage() {
       {stage === 'cats' && (
         <NearbyCategoriesView
           filtered={filtered}
+          location={location}
+          time={time}
           onSelectCategory={(c) => { setCategory(c); nav('list'); }}
         />
       )}
@@ -216,7 +233,8 @@ function ViewSelectButtons({ disabled, noResult, onMap, onCats }) {
   );
 }
 
-function NearbyMapView({ location, filtered, onPick }) {
+function NearbyMapView({ location, time, filtered, onPick }) {
+  const prefix = location?.name && time ? `${location.name} ${time}분 이내` : '근처';
   const mapEl = useRef(null);
   const [mapError, setMapError] = useState(null);
 
@@ -285,7 +303,7 @@ function NearbyMapView({ location, filtered, onPick }) {
 
   return (
     <>
-      <Contents banner={mapError ? `지도 로드 실패: ${mapError}` : `${filtered.length}곳 · 마커를 눌러서 골라봐`}>
+      <Contents banner={mapError ? `지도 로드 실패: ${mapError}` : `${prefix} 식당 ${filtered.length}곳 · 마커를 눌러서 골라봐`}>
         {mapError ? (
           <div className="h-full overflow-auto p-2 space-y-2">
             {filtered.map((r) => (
@@ -307,16 +325,18 @@ function NearbyMapView({ location, filtered, onPick }) {
   );
 }
 
-function NearbyCategoriesView({ filtered, onSelectCategory }) {
+function NearbyCategoriesView({ filtered, location, time, onSelectCategory }) {
   const categories = useMemo(() => {
     const counts = new Map();
     for (const r of filtered) counts.set(r.RES_GB, (counts.get(r.RES_GB) || 0) + 1);
     return [...counts.entries()].sort((a, b) => b[1] - a[1]);
   }, [filtered]);
 
+  const prefix = location?.name && time ? `${location.name} ${time}분 이내` : '도보 거리 안';
+
   return (
     <>
-      <Contents banner={`도보 거리 안 식당 ${filtered.length}곳 · ${categories.length}개 카테고리`}>
+      <Contents banner={`${prefix} 식당 ${filtered.length}곳 · ${categories.length}개 카테고리`}>
         <div className="grid h-full grid-cols-2 gap-2 overflow-auto p-2 content-start">
           {categories.map(([cat, count], i) => (
             <button

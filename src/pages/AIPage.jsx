@@ -40,22 +40,32 @@ export default function AIPage() {
     [filtered, rejections],
   );
 
-  async function fetchPick() {
-    if (remaining.length === 0) {
+  async function fetchPick(rejectionsOverride) {
+    const effectiveRejections = rejectionsOverride ?? rejections;
+    const effectiveRemaining = filtered.filter(
+      (r) => !effectiveRejections.find((x) => x.text === r.RES_NAME),
+    );
+    if (effectiveRemaining.length === 0) {
       setError('남은 후보가 없어요. 조건을 넓히거나 처음부터 다시.');
       return;
     }
     setLoading(true);
     setError(null);
     try {
-      const candidates = remaining.map((r) => ({
+      const shuffled = [...effectiveRemaining].sort(() => Math.random() - 0.5);
+      const candidates = shuffled.map((r) => ({
         text: r.RES_NAME,
         category: r.RES_GB,
         walkingMinutes: r._min,
         address: r.RES_ADDR,
       }));
-      const res = await aiRecommend({ mode: 'restaurant', candidates, mood, rejections });
-      const found = filtered.find((r) => r.RES_NAME === res.pickedText) ?? remaining[0];
+      const res = await aiRecommend({
+        mode: 'restaurant',
+        candidates,
+        mood,
+        rejections: effectiveRejections,
+      });
+      const found = filtered.find((r) => r.RES_NAME === res.pickedText) ?? shuffled[0];
       setPicked(found);
       setReason(res.reason || '');
     } catch (e) {
@@ -71,11 +81,15 @@ export default function AIPage() {
   }
 
   function applyReject(text) {
-    setRejections((prev) => [...prev, { text: picked?.RES_NAME, reason: text || '' }]);
+    const nextRejections = [
+      ...rejections,
+      { text: picked?.RES_NAME, reason: text || '' },
+    ];
+    setRejections(nextRejections);
     setRejectReason('');
     setPicked(null);
     setReason('');
-    fetchPick();
+    fetchPick(nextRejections);
   }
 
   function goBack() {
@@ -150,11 +164,29 @@ export default function AIPage() {
                   <span className="font-jua text-mandarin-dark">AI가 한 번에</span> 골라줄게요
                 </p>
 
-                {/* 기분 예시 칩 */}
+                {/* 기분 예시 칩 (탭하면 기분 입력에 채워짐) */}
                 <div className="flex flex-wrap justify-center gap-1.5">
-                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-[11px] text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">🍜 따끈한</span>
-                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-[11px] text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">🥗 가벼운</span>
-                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-[11px] text-slate-600 ring-1 ring-slate-200 shadow-sm backdrop-blur">🥩 든든한</span>
+                  {[
+                    { icon: '🍜', text: '따끈한' },
+                    { icon: '🥗', text: '가벼운' },
+                    { icon: '🥩', text: '든든한' },
+                  ].map(({ icon, text }) => {
+                    const active = mood === text;
+                    return (
+                      <button
+                        key={text}
+                        type="button"
+                        onClick={() => setMood(text)}
+                        className={`rounded-full px-2.5 py-1 text-[11px] shadow-sm backdrop-blur transition active:scale-95 ${
+                          active
+                            ? 'bg-mandarin text-white ring-1 ring-mandarin-dark'
+                            : 'bg-white/80 text-slate-600 ring-1 ring-slate-200 hover:bg-white hover:ring-mandarin'
+                        }`}
+                      >
+                        {icon} {text}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -269,7 +301,7 @@ export default function AIPage() {
                 다시 시도
               </button>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 <input
                   type="text"
                   placeholder="왜 별로인지 알려주면 다음엔 더 잘 골라볼게! (선택)"
@@ -278,11 +310,17 @@ export default function AIPage() {
                   onChange={(e) => setRejectReason(e.target.value)}
                   className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs placeholder:text-slate-400 focus:border-brand focus:bg-white focus:outline-none"
                 />
-                <div className="grid grid-cols-2 gap-2">
-                  <button className="btn-danger text-base" onClick={() => applyReject(rejectReason)}>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <button
+                    className="btn-danger text-lg font-jua py-3.5 shadow-lg shadow-rose-500/25 ring-1 ring-rose-400/40 active:scale-[0.98]"
+                    onClick={() => applyReject(rejectReason)}
+                  >
                     다른 거 보여줘
                   </button>
-                  <button className="btn-primary text-base" onClick={() => setStage(3)}>
+                  <button
+                    className="btn-primary text-lg font-jua py-3.5 shadow-lg shadow-brand/30 ring-1 ring-brand/40 active:scale-[0.98]"
+                    onClick={() => setStage(3)}
+                  >
                     이걸로!
                   </button>
                 </div>

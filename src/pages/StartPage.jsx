@@ -130,7 +130,7 @@ export default function StartPage() {
             <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand/10 text-xl">
               🎰
             </span>
-            <span className="font-jua text-sm leading-tight text-slate-800">룰렛</span>
+            <span className="font-jua text-sm leading-tight text-slate-800">맡겨봐</span>
             <span className="text-[10px] text-slate-500">운명에 맡기기</span>
           </Link>
           <Link
@@ -140,8 +140,8 @@ export default function StartPage() {
             <span className="grid h-9 w-9 place-items-center rounded-lg bg-mandarin/10 text-xl">
               📋
             </span>
-            <span className="font-jua text-sm leading-tight text-slate-800">카테고리</span>
-            <span className="text-[10px] text-slate-500">전체 분류 보기</span>
+            <span className="font-jua text-sm leading-tight text-slate-800">종류별로</span>
+            <span className="text-[10px] text-slate-500">음식 종류로 보기</span>
           </Link>
           <Link
             to="/nearby"
@@ -150,7 +150,7 @@ export default function StartPage() {
             <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand/10 text-xl">
               🗺️
             </span>
-            <span className="font-jua text-sm leading-tight text-slate-800">거리순</span>
+            <span className="font-jua text-sm leading-tight text-slate-800">가까운 곳</span>
             <span className="text-[10px] text-slate-500">지도로 둘러보기</span>
           </Link>
         </div>
