@@ -192,12 +192,6 @@
         "building_lng": 126.563522
     },
     {
-        "building_id": 33,
-        "building_name": "생명과학기술센터(증축)",
-        "building_lat": 33.458508,
-        "building_lng": 126.565381
-    },
-    {
         "building_id": 34,
         "building_name": "생명과학혁신기술센터",
         "building_lat": 33.458703,
@@ -214,12 +208,6 @@
         "building_name": "수의과대학",
         "building_lat": 33.452074,
         "building_lng": 126.558632
-    },
-    {
-        "building_id": 37,
-        "building_name": "실험동물관리사",
-        "building_lat": 33.451486,
-        "building_lng": 126.560197
     },
     {
         "building_id": 38,
