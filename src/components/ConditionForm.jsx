@@ -15,7 +15,7 @@ export default function ConditionForm({
   children,
 }) {
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-1.5">
       <Field label="위치">
         <select
           className="field"
@@ -57,7 +57,7 @@ export default function ConditionForm({
       )}
       {children ?? (
         <button
-          className={`w-full text-base mt-2 ${submitDisabled ? 'btn-secondary' : 'btn-primary'}`}
+          className={`w-full text-base mt-1.5 ${submitDisabled ? 'btn-secondary' : 'btn-primary'}`}
           onClick={onSubmit}
           disabled={submitDisabled}
         >
@@ -70,11 +70,11 @@ export default function ConditionForm({
 
 function Field({ label, children }) {
   return (
-    <label className="block">
-      <span className="mb-1 block text-[11px] font-semibold tracking-wide text-slate-500">
+    <label className="flex items-center gap-3">
+      <span className="w-20 shrink-0 text-[11px] font-semibold tracking-wide text-slate-500">
         {label}
       </span>
-      {children}
+      <div className="flex-1 min-w-0">{children}</div>
     </label>
   );
 }

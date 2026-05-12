@@ -176,7 +176,7 @@ export default function AIPage() {
                       <button
                         key={text}
                         type="button"
-                        onClick={() => setMood(text)}
+                        onClick={() => setMood(active ? '' : text)}
                         className={`rounded-full px-2.5 py-1 text-[11px] shadow-sm backdrop-blur transition active:scale-95 ${
                           active
                             ? 'bg-mandarin text-white ring-1 ring-mandarin-dark'

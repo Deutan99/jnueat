@@ -132,7 +132,7 @@ export default function NearbyPage() {
                       <button
                         key={t}
                         type="button"
-                        onClick={() => setTime(t)}
+                        onClick={() => setTime(active ? '' : t)}
                         className={`rounded-full px-2.5 py-1 text-[11px] shadow-sm backdrop-blur transition active:scale-95 ${
                           active
                             ? 'bg-brand text-white ring-1 ring-brand-dark'

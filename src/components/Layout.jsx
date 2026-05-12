@@ -14,7 +14,7 @@ export function Contents({ children, banner }) {
           {banner}
         </div>
       )}
-      <div className="card flex-1 min-h-[360px] overflow-hidden">
+      <div className="card flex-1 min-h-[200px] overflow-hidden">
         {children}
       </div>
     </main>
@@ -23,7 +23,10 @@ export function Contents({ children, banner }) {
 
 export function Footer({ children }) {
   return (
-    <footer className="px-4 pb-5 pt-3">
+    <footer
+      className="shrink-0 px-4 pt-2"
+      style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 0.75rem)' }}
+    >
       {children}
     </footer>
   );
