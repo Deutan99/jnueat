@@ -8,12 +8,42 @@ const LIMITS = {
   rate: { windowMs: 60_000, max: 30 },
 };
 
+const ALLOWED_ORIGINS = new Set([
+  'https://jnueat.vercel.app',
+  'http://localhost:5173',
+  'http://localhost:3000',
+]);
+
 const buckets = new Map();
 
 function getIp(req) {
   const fwd = req.headers['x-forwarded-for'];
   if (typeof fwd === 'string') return fwd.split(',')[0].trim();
   return req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown';
+}
+
+function originFromHeader(req) {
+  const origin = req.headers.origin;
+  if (origin) return origin;
+  const referer = req.headers.referer;
+  if (!referer) return null;
+  try {
+    const u = new URL(referer);
+    return `${u.protocol}//${u.host}`;
+  } catch {
+    return null;
+  }
+}
+
+function isAllowedOrigin(origin) {
+  if (!origin) return false;
+  if (ALLOWED_ORIGINS.has(origin)) return true;
+  try {
+    const { hostname, protocol } = new URL(origin);
+    if (protocol !== 'https:') return false;
+    if (hostname.endsWith('.vercel.app') && hostname.startsWith('jnueat-')) return true;
+  } catch {}
+  return false;
 }
 
 function rateLimit(ip) {
@@ -88,6 +118,11 @@ function formatRejections(rejections) {
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return send(res, 405, { error: 'Method Not Allowed' });
+
+  const origin = originFromHeader(req);
+  if (!isAllowedOrigin(origin)) {
+    return send(res, 403, { error: '허용되지 않은 출처' });
+  }
 
   const ip = getIp(req);
   const rl = rateLimit(ip);
