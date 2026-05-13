@@ -10,7 +10,7 @@ const CAFETERIA_MENU_URL = {
   '신관 백두관 식당': 'https://jejunu.ac.kr/camp/stud/foodmenu/firstfixmenu.htm',
   '교수회관': 'https://jejunu.ac.kr/camp/stud/foodmenu/fifthmenu.htm',
   '학생생활관 6호관': 'https://jejunu.ac.kr/camp/stud/foodmenu/fixfirst.htm',
-  '학생생활관 1호관': 'https://jejunu.ac.kr/camp/stud/foodmenu/fixmenu.htm',
+  '학생생활관 1호관': 'https://www.instagram.com/chefskiss_jnu?igsh=ZXdmc2N5aHA2MWR6',
 };
 
 export default function ResultStage({ resName, resUrl, category, walkingMin, address }) {
